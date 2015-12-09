@@ -1,58 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<script name="jquery/jquery.js" library="primefaces"></script>
+	<!-- 	<script name="jquery/jquery.js" library="primefaces"></script> -->
+<!-- 	<h:outputStylesheet name="webjars/font-awesome/4.4.0/css/font-awesome.css"/>  -->
 </h:head>
-<h:form>
-		<p:tabMenu activeIndex="#{param.i}">
+<body>
+	<div class="ui-fluid">
+		<div class="header">
+			<div class="title">
+				<img src="../resources/images/xxxhdpi.png" alt="logo" />
 
-			<p:menuitem value="Open"></p:menuitem>
-			<p:menuitem value="Edit"></p:menuitem>
-			<p:separator />
-			<p:menuitem value="Exit"></p:menuitem>
+				<h1>Enquestes 2015</h1>
+				<h:form>
+				<h:commandLink id="cat">
+					<h:graphicImage alt="catala" name="Andorra.png" library="images"
+						styleClass="flag" />
+				</h:commandLink>
+				<p:tooltip for="cat" value="Català" showEffect="slide"
+					hideEffect="slide" />
+				<p:spacer width="5" />
+				<h:commandLink id="eng">
+					<h:graphicImage alt="angles" name="United-Kingdom.png"
+						library="images" styleClass="flag" />
+				</h:commandLink>
+				<p:tooltip for="eng" value="English" showEffect="slide"
+					hideEffect="slide" />
+				<p:separator />
+				</h:form>
+				<h:form>
+					<p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
+				</h:form>
+			</div>
 
-			<p:menuitem value="About Primefaces"></p:menuitem>
-			<p:menuitem value="Contact Us"></p:menuitem>
-			<p:separator />
-			<p:menuitem value="Help"></p:menuitem>
-		</p:tabMenu>
-	</h:form>
+			<h:form id="menu">
+				<p:tabMenu activeIndex="#{param.i}">
+					<p:menuitem value="Admin" icon="fa fa-fw fa-user">
+						<f:param name="i" value="0" />
+					</p:menuitem>
+					<p:menuitem value="Sortir" icon="fa fa-fw fa-remove">
+						<f:param name="i" value="1" />
+					</p:menuitem>
+				</p:tabMenu>
+			</h:form>
+		</div>
 
-	<h:form id="form">
 
-		<p:growl id="msgs" showDetail="true" />
-		<p:tabView>
-			<p:tab title="Godfather Part I">
-				<h:panelGrid columns="2" cellpadding="10">
-					<p:graphicImage name="demo/images/godfather/godfather1.jpg" />
-					<h:outputText value="The story begins as Don Vito Corleone..." />
-				</h:panelGrid>
-			</p:tab>
-			<p:tab title="Godfather Part II">
-				<h:panelGrid columns="2" cellpadding="10">
-					<p:graphicImage name="demo/images/godfather/godfather2.jpg" />
-					<h:outputText value="Francis Ford Coppola's legendary..." />
-				</h:panelGrid>
-			</p:tab>
-			<p:tab title="Godfather Part III">
-				<h:panelGrid columns="2" cellpadding="10">
-					<p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-					<h:outputText value="After a break of more than 15 years..." />
-				</h:panelGrid>
-			</p:tab>
-		</p:tabView>
-	</h:form>
-<!-- 	<ui:composition template="/templates/common.xhtml"> -->
-	
-<!-- 			<ui:define name="pageTitle">Greeting to User</ui:define> -->
-<!-- 			<ui:define name="pageHeader">Greeting page</ui:define> -->
-<!-- 			<ui:define name="body"> -->
-<!-- 				#{msgs.greeting} #{user.name}! -->
-<!-- 			</ui:define> -->
-<!-- 			<ui:define name="content"></ui:define> -->
-<!-- 	</ui:composition> -->
+		<h:form id="tabs">
+			<p:tabView>
+				<p:tab id="grafiques" title="Gràfiques" icon="fa fa-fw fa-line-chart">
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:outputText value="Gràfiques de les dades" />
+					</h:panelGrid>
+				</p:tab>
+				<p:tab id="llistats" title="Llistats" icon="fa fa-fw fa-list">
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:outputText value="Llistats de les dades" />
+					</h:panelGrid>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	</div>
+</body>
 
 </html>
