@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view locale="#{languageMBean.currentLocale}" contentType="text/html"
+	encoding="ISO-8859-1">
+	<ui:composition>
+		<h:form>
+			<p:tabMenu activeIndex="#{param.i}">
+				<p:menuitem value="#{msg.item_main_menu_1}" icon="ui-icon-star">
+					<h:outputText value="#{msg.title}" />
+					<f:param name="i" value="0" />
+				</p:menuitem>
+
+				<p:menuitem value="#{msg.item_main_menu_2}" icon="ui-icon-search">
+					<h:outputText value="#{msg.title}" />
+					<f:param name="i" value="1" />
+				</p:menuitem>
+
+				<p:menuitem value="#{msg.item_main_menu_3}" icon="ui-icon-document">
+					<h:outputText value="#{msg.title}" />
+					<f:param name="i" value="2" />
+				</p:menuitem>
+
+				<p:menuitem value="#{msg.item_main_menu_4}" icon="ui-icon-wrench">
+					<h:outputText value="#{msg.title}" />
+					<f:param name="i" value="3" />
+				</p:menuitem>
+
+				<p:menuitem value="#{msg.item_main_menu_5}" icon="ui-icon-person">
+					<h:outputText value="#{msg.title}" />
+					<f:param name="i" value="4" />
+				</p:menuitem>
+			</p:tabMenu>
+		</h:form>
+	</ui:composition>
+</f:view>
+</html>
+

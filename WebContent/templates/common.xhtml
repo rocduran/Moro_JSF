@@ -1,23 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	 
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
-<head>
-<title><ui:insert name="pageTitle">Page Title</ui:insert></title>
-</head>
+<f:view locale="#{languageMBean.currentLocale}" contentType="text/html" encoding="ISO-8859-1">
 
-<body>
+<h:head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title><ui:insert name="title" /></title>
+</h:head>
 
-	<ui:insert name="pageHeader">Page Header</ui:insert>
-	<ui:include src="/menu.xhtml"/>
-	<ui:insert name="body">Page Body</ui:insert>
-	<ui:insert name="content">Content</ui:insert>
+<h:body>
+	<div id="layout">		
+		<div class="header">
+				<img src="../resources/images/xxxhdpi.png" alt="logo" />
 
+				<h1>
+					<h:outputText value="#{msg.title}" />
+				</h1>
 
+				<ui:include src="/resources/menus/main_menu.xhtml"/>
 
-</body>
+				<h:form>
+					<h:commandLink id="cat" actionListener="#{languageMBean.chooseLocaleFromLink}" >
+						<h:graphicImage alt="catala" name="Andorra.png" library="images" styleClass="flag" />
+					</h:commandLink>
 
+					<p:tooltip for="cat" value="Català" showEffect="slide" hideEffect="slide" />
+					<p:spacer width="5" />
+
+					<h:commandLink id="eng" actionListener="#{languageMBean.chooseLocaleFromLink}">
+						<h:graphicImage alt="angles" name="United-Kingdom.png" library="images" styleClass="flag" />
+					</h:commandLink>
+
+					<p:tooltip for="eng" value="English" showEffect="slide" hideEffect="slide" />
+					<p:separator />
+				</h:form>
+				<h:form>
+					<p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
+				</h:form>
+		</div>
+	
+		<div id="content">
+			<ui:insert name="content"></ui:insert>
+		</div>
+			
+		<div id="footer">
+			<p>
+			<a href="#">©</a>
+			<h:outputText value="#{msg.footer}" />
+			</p>
+		</div>
+	</div>
+</h:body>
+</f:view>
 </html>
