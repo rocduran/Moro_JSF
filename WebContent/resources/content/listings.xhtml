@@ -1,4 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -7,7 +6,31 @@
 
 <body>
 	<div class="ui-fluid">
-		<p>llistats</p>
+		<div id="divTaulaDossiers" style="margin-top: 5%">
+			<p:dataTable id="tblDossiersList" var="dossier"
+				value="#{dossierMBean.dossierList}"
+				emptyMessage="#{msg.no_dossiers}" paginator="true" rows="5"
+				paginatorAlwaysVisible="false" paginatorPosition="bottom"
+				stickyHeader="false">
+
+				<p:column headerText="Id">
+					<h:button icon="fa-trash"></h:button>
+					<h:outputText value="#{dossier.id}" id="dossierId"/>
+				</p:column>
+
+				<p:column headerText="#{msg.descripcio}">
+					<p:inplace editor="true">
+						<p:inputText value="#{dossier.descripcio}" id="dossierDesc" />
+					</p:inplace>
+				</p:column>
+				
+				<p:column headerText="#{msg.preu}">
+					<p:inplace editor="true">
+						<p:inputText value="#{dossier.preu}" id="dossierPreu" />
+					</p:inplace>
+				</p:column>			
+			</p:dataTable>
+		</div>
 	</div>
 </body>
 </html>
