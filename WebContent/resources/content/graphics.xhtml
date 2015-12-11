@@ -11,51 +11,52 @@
 			<h:form>
 				<div id="divListBoxServeis" style="float: left">
 					<p:outputLabel for="listBoxServeiList" value="#{msg.select_servei}" />
-					
-					
-					<p:selectOneListbox id="listBoxServeiList" value="#{serveiMBean.selectedServei}" size="4" converter="#{serveiConverter}" var ="s">
-						
-						<f:selectItems value="#{serveiMBean.serveiList}" var="servei" itemLabel="#{servei.descripcio}" itemValue="#{servei}"/>
-					
+
+					<p:selectOneListbox id="listBoxServeiList"
+						value="#{serveiMBean.selectedServei}" converter="serveiConverter"
+						var="s" filter="true" filterMatchMode="contains">
+
+						<f:selectItems value="#{serveiMBean.serveiList}"
+							var="selectedServei" itemLabel="#{servei.descripcio}"
+							itemValue="#{servei}" />
+
 						<p:column><h:outputText value="#{s.id}" /></p:column>
 
 						<p:column><h:outputText value=" - " /></p:column>
 
 						<p:column><h:outputText value="#{s.descripcio}" /></p:column>
-						
+
 					</p:selectOneListbox>
-					
-					<p:commandButton value="Submit" icon="ui-icon-check" style="margin-top: 5%">
-						<f:ajax render="divTaulaParametres" />
+
+					<p:commandButton value="Submit" icon="ui-icon-check"
+						style="margin-top: 5%" action="#{valoracioMBean.createBarModels}">
+						<f:ajax event="click" render="tblParametres graf" />
 					</p:commandButton>
-					
-<!-- 					<h:outputText id="panel1" value="#{serveiMBean.selectedServei}" /> -->
-					
+
 				</div>
 
 				<div id="divBarCharView"
 					style="display: inline-block; margin-left: 2%">
-					<p:chart type="bar" model="#{chartView.barModel}" style="height:400px; width:1000px" />
+					<p:chart id="graf" type="bar" model="#{valoracioMBean.barModel}" style="height:400px; width:1000px" emptyMessage="null" />
 				</div>
 
 				<div id="divTaulaParametres" style="margin-top: 5%">
-					<p:dataTable id="tblParametres" value="#{valoracioMBean.getValoracioList()}" 
-						var="val" emptyMessage="#{msg.no_parametres}" paginator="true" rows="5"
-						paginatorAlwaysVisible="false" paginatorPosition="bottom"
-						stickyHeader="false">
-						
-						<f:param name="idServei" value="1" />
-						
-						<p:column headerText="Parametre">
-							<h:outputText value="#{val.id}" id="code" />
+					<p:dataTable id="tblParametres"
+						value="#{parametreMBean.getParametreList(serveiMBean.selectedServei.idTipus)}"
+						var="parametre" emptyMessage="#{msg.no_parametres}"
+						paginator="true" rows="5" paginatorAlwaysVisible="false"
+						paginatorPosition="bottom" stickyHeader="false">
+
+						<p:column headerText="#{msg.parametres}">
+							<h:outputText value="#{parametre.descripcio}"/>
 						</p:column>
 
-						<p:column headerText="Valor">
-							<h:outputText value="#{val.valor}" id="title" />
+						<p:column headerText="#{msg.valor}">
+							<h:outputText value="#{valoracioMBean.getMitjanaParametre(parametre.id, serveiMBean.selectedServei.id)}"/>
 						</p:column>
-
 					</p:dataTable>
 				</div>
+
 			</h:form>
 		</div>
 	</div>

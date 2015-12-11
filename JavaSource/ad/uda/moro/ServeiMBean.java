@@ -1,21 +1,26 @@
 package ad.uda.moro;
 
+import java.awt.event.ActionEvent;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;	
 import javax.faces.context.FacesContext;
 
+import com.sun.javafx.collections.MappingChange.Map;
+
 import ad.uda.moro.MoroException;
+import ad.uda.moro.ejb.entity.Parametre;
 import ad.uda.moro.ejb.entity.Servei;
 import ad.uda.moro.ejb.entity.Valoracio;
 import ad.uda.moro.ejb.session.EnquestesServiceRemote;
 
 @ManagedBean(name = "serveiMBean")
-@SessionScoped
+@ApplicationScoped
 public class ServeiMBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -48,7 +53,7 @@ public class ServeiMBean implements Serializable {
 
 		// Load the Servei list:
 		this.loadServeis();
-		
+
 	}
 
 	private String loadServeis() {
@@ -57,6 +62,7 @@ public class ServeiMBean implements Serializable {
 
 		try {
 			Servei[] serveiArray = this.enquestesService.getServeiList();
+			System.out.println("Load Servei: " + serveiArray);
 			this.serveiList = Arrays.asList(serveiArray);
 		} catch (MoroException ex) {
 			errorMessage = WebOperations.getStandardBundleMessage("ErrBusinessLogic") + " " + ex.getMessage();
@@ -66,7 +72,7 @@ public class ServeiMBean implements Serializable {
 		}
 		return WebOperations.OUTCOME_SUCCESS;
 	}
-	
+
 	public List<Servei> getServeiList() {
 		return serveiList;
 	}
@@ -81,7 +87,36 @@ public class ServeiMBean implements Serializable {
 
 	public void setSelectedServei(Servei selectedServei) {
 		this.selectedServei = selectedServei;
-		
 	}
+
+	public Servei getServeiByIdFromList(int id) {
+		for (int i = 0; i < this.serveiList.size(); i ++){
+			if(this.serveiList.get(i).getId() == id ) return this.serveiList.get(i);
+		}
+		return null;
+	}
+	
+//	public int getMitjanaParametre(String param){
+//		if (selectedServei == null) return -1;
+//		 
+//		int idParam = Integer.valueOf(param);
+//		try {
+//			Valoracio[] valoracions = this.enquestesService.getValoracioList();
+//			int suma = 0;
+//			int total = 0;
+//			for (int i = 0; i < valoracions.length; i++){
+//				if(valoracions[i].getIdParam().getId() == idParam && valoracions[i].getIdServei().getId() == selectedServei.getId() ){
+//					suma += valoracions[i].getValor();
+//					total ++;
+//				}
+//			}
+//			if( total == 0) return 0;
+//			return suma / total;
+//		} catch (MoroException ex) {
+//			errorMessage = WebOperations.getStandardBundleMessage("ErrBusinessLogic") + " " + ex.getMessage();
+//			WebOperations.addErrorMessage(errorMessage);
+//			return -1;
+//		}
+//	}
 
 }

@@ -14,8 +14,9 @@ public class ServeiConverter implements Converter {
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if(value != null && value.trim().length() > 0) {
             try {
-            	ServeiMBean service = (ServeiMBean) fc.getExternalContext().getApplicationMap().get("selectOneListBoxBean");
-                return service.getServeiList().get((Integer.parseInt(value)));
+            	ServeiMBean service = (ServeiMBean) fc.getExternalContext().getApplicationMap().get("serveiMBean");
+            	
+                return service.getServeiByIdFromList(Integer.valueOf(value));
             } catch(NumberFormatException e) {
                 throw new ConverterException();
             }
