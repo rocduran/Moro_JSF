@@ -28,9 +28,13 @@
 
 					</p:selectOneListbox>
 
-					<p:commandButton value="Submit" icon="ui-icon-check"
-						style="margin-top: 5%" action="#{valoracioMBean.createBarModels}">
+					<p:commandButton value="Submit" icon="ui-icon-check" 
+						style="margin-top: 5%" action="#{valoracioMBean.setParametresGraf(serveiMBean.selectedServei.id)}">
+						
+						<f:actionListener binding="#{valoracioMBean.createBarModels()}"/>
+						
 						<f:ajax event="click" render="tblParametres graf" />
+						
 					</p:commandButton>
 
 				</div>
@@ -42,7 +46,7 @@
 
 				<div id="divTaulaParametres" style="margin-top: 5%">
 					<p:dataTable id="tblParametres"
-						value="#{parametreMBean.getParametreList(serveiMBean.selectedServei.idTipus)}"
+						value="#{valoracioMBean.parametresGraf}"
 						var="parametre" emptyMessage="#{msg.no_parametres}"
 						paginator="true" rows="5" paginatorAlwaysVisible="false"
 						paginatorPosition="bottom" stickyHeader="false">

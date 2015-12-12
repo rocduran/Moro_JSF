@@ -35,10 +35,10 @@ public class ValoracioMBean implements Serializable {
 	// Moro entities:
 	private List<Valoracio> valoracioList;
 	private Valoracio selectedValoracio;
-	
+
 	private List<Parametre> parametresGraf;
 	private List<Integer> mitjanes;
-	
+
 	private BarChartModel barModel;
 
 	public ValoracioMBean() {
@@ -59,10 +59,10 @@ public class ValoracioMBean implements Serializable {
 
 		// Load the Valoracio list:
 		this.loadValoracions();
-		
+
 		this.parametresGraf = new ArrayList<Parametre>();
 		this.mitjanes = new ArrayList<Integer>();
-		
+
 		createBarModels();
 	}
 
@@ -123,64 +123,97 @@ public class ValoracioMBean implements Serializable {
 
 		int suma = 0;
 		int total = 0;
-		
+
 		for (int i = 0; i < valoracioList.size(); i++) {
-			if (valoracioList.get(i).getIdParam().getId() == idParam && valoracioList.get(i).getIdServei().getId() == idServei) {
+			if (valoracioList.get(i).getIdParam().getId() == idParam
+					&& valoracioList.get(i).getIdServei().getId() == idServei) {
 				suma += valoracioList.get(i).getValor();
 				total++;
-				if(!this.parametresGraf.contains(valoracioList.get(i))){
-					parametresGraf.add(valoracioList.get(i).getIdParam());
-				}
 			}
 		}
 
-		if (total == 0){
-			this.mitjanes.add(0);
-			return 0;
-		}
-		this.mitjanes.add(suma/total);	
+		if (total == 0) return 0;
 		return suma / total;
 	}
 
-//	public List<Integer> getMitjanes(int idServei){
-//		
-//	}
-	
-	 private void createBarModel() {
-	        barModel = initBarModel();
-	         
-	        barModel.setTitle("Grafica");
-	        barModel.setLegendPosition("ne");
-	         
-	        Axis xAxis = barModel.getAxis(AxisType.X);
-	        xAxis.setLabel("Parametres");
-	         
-	        Axis yAxis = barModel.getAxis(AxisType.Y);
-	        yAxis.setLabel("Valor");
-	        yAxis.setMin(0);
-	        yAxis.setMax(20);
-	    }
-	 
-	 public void createBarModels() {
-	        createBarModel();
-	    }
-	 
-	 private BarChartModel initBarModel() {
-	        BarChartModel model = new BarChartModel();
-	 
-	        ChartSeries params = new ChartSeries();
-	        params.setLabel("Boys");
-	        for (int i = 0; i < this.parametresGraf.size(); i++){
-	        	params.set(parametresGraf.get(i).getDescripcio(), mitjanes.get(i));
-	        }
-	        
-	        model.addSeries(params);
-	         
-	        return model;
-	    }
-	 
-	 public BarChartModel getBarModel() {
-	        return barModel;
-	    }
+	// public List<Integer> getMitjanes(int idServei){
+	//
+	// }
+
+	public List<Parametre> getParametresGraf() {
+		return this.parametresGraf;
+	}
+
+	public void setParametresGraf(int idServei) {
+		this.parametresGraf = new ArrayList<Parametre>();
+
+		for (int i = 0; i < valoracioList.size(); i++) {
+			if (valoracioList.get(i).getIdServei().getId() == idServei) {
+				parametresGraf.add(valoracioList.get(i).getIdParam());
+			}
+		}
+		this.setMitjanesParametres(idServei);
+	}
+
+	public List<Integer> getMitjanesParametres() {
+		return this.mitjanes;
+	}
+
+	public void setMitjanesParametres(int idServei) {
+		this.mitjanes = new ArrayList<Integer>();
+
+		int suma = 0;
+		int total = 0;
+
+		for (int i = 0; i < valoracioList.size(); i++) {
+			if (valoracioList.get(i).getIdServei().getId() == idServei) {
+				suma += valoracioList.get(i).getValor();
+				total++;
+
+				if (total == 0) {
+					this.mitjanes.add(0);
+				} else {
+					this.mitjanes.add(suma / total);
+				}
+			}
+
+		}
+	}
+
+	public void createBarModels() {
+		createBarModel();
+	}
+
+	private void createBarModel() {
+		barModel = initBarModel();
+
+		barModel.setTitle("Grafica");
+		barModel.setLegendPosition("ne");
+
+		Axis xAxis = barModel.getAxis(AxisType.X);
+		xAxis.setLabel("Parametres");
+
+		Axis yAxis = barModel.getAxis(AxisType.Y);
+		yAxis.setLabel("Valor");
+		yAxis.setMin(0);
+		yAxis.setMax(20);
+	}
+
+	private BarChartModel initBarModel() {
+		BarChartModel model = new BarChartModel();
+
+		for (int i = 0; i < this.parametresGraf.size(); i++) {
+			ChartSeries params = new ChartSeries();
+			params.setLabel(parametresGraf.get(i).getDescripcio());
+			params.set(parametresGraf.get(i).getDescripcio(), mitjanes.get(i));
+			model.addSeries(params);
+		}
+
+		return model;
+	}
+
+	public BarChartModel getBarModel() {
+		return barModel;
+	}
 
 }
