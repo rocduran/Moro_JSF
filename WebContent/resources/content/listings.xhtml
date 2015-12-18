@@ -1,36 +1,85 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<body>
-	<div class="ui-fluid">
-		<div id="divTaulaDossiers" style="margin-top: 5%">
-			<p:dataTable id="tblDossiersList" var="dossier"
-				value="#{dossierMBean.dossierList}"
-				emptyMessage="#{msg.no_dossiers}" paginator="true" rows="5"
-				paginatorAlwaysVisible="false" paginatorPosition="bottom"
-				stickyHeader="false">
+	<body>
 
-				<p:column headerText="Id">
-					<h:button icon="fa-trash"></h:button>
-					<h:outputText value="#{dossier.id}" id="dossierId"/>
-				</p:column>
+		<div class="ui-fluid">
+			<div id="container">
+				<h:form id="newDossier">
+					<div id="addDossier" style="display: block">
 
-				<p:column headerText="#{msg.descripcio}">
-					<p:inplace editor="true">
-						<p:inputText value="#{dossier.descripcio}" id="dossierDesc" />
-					</p:inplace>
-				</p:column>
-				
-				<p:column headerText="#{msg.preu}">
-					<p:inplace editor="true">
-						<p:inputText value="#{dossier.preu}" id="dossierPreu" />
-					</p:inplace>
-				</p:column>			
-			</p:dataTable>
+
+						<h:outputLabel for="descripcio" value="#{msg.descripcio}:" />
+
+						<p:inputText id="descripcio" required="true"
+							placeholder="Descripcio"
+							value="#{dossierMBean.dossier.descripcio}" />
+
+						<h:outputLabel for="preu" value="#{msg.preu}:"
+							style="margin-left: 2%" />
+
+						<p:inputText id="preu" required="true" placeholder="Preu"
+							value="#{dossierMBean.dossier.preu}" />
+
+						<p:commandButton value="#{msg.inserir}" icon="ui-icon-plus"
+							style="margin-left: 2%" styleClass="ui-priority-primary"
+							action="#{dossierMBean.addDossier}" type="submit" process="@form"
+							update="tblDossiers" />
+
+
+					</div>
+
+
+					<div id="divTaulaDossiers" style="margin-top: 5%; display: block">
+
+						<p:dataTable id="tblDossiers" var="dossier"
+							value="#{dossierMBean.dossierList}"
+							emptyMessage="#{msg.no_dossiers}" scrollable="true"
+							scrollHeight="100">
+
+							<p:column headerText="Id">
+								<h:outputText value="#{dossier.id}" id="dossierId" />
+							</p:column>
+
+							<p:column headerText="#{msg.descripcio}">
+								<p:inplace editor="true">
+									<p:ajax event="save"
+										action="#{dossierMBean.updateDescripcio(dossier.id, dossier.descripcio)}" />
+									<p:inputText value="#{dossier.descripcio}" />
+								</p:inplace>
+							</p:column>
+
+							<p:column headerText="#{msg.preu}">
+								<p:inplace editor="true">
+									<p:ajax event="save"
+										action="#{dossierMBean.updatePreu(dossier.id, dossier.preu)}" />
+									<p:inputText value="#{dossier.preu}" />
+								</p:inplace>
+							</p:column>
+
+							<p:column headerText="#{msg.borrar}">
+
+								<!-- 							<p:commandButton icon="ui-icon-trash" -->
+								<!-- 							style="margin-top: 1%; margin-bottom: 1%" styleClass="ui-priority-primary" -->
+								<!-- 							action="#{dossierMBean.delete(dossier.id)}" type="button"/> -->
+
+								<!-- 							<p:commandButton icon="ui-icon-trash" -->
+								<!-- 								style="margin-top: 1%; margin-bottom: 1%" -->
+								<!-- 								action="#{dossierMBean.delete(dossier.id)}"> -->
+								<!-- 								<f:ajax event="click" render="tblDossiers" /> -->
+								<!-- 							</p:commandButton> -->
+							</p:column>
+
+						</p:dataTable>
+
+					</div>
+				</h:form>
+			</div>
+
 		</div>
-	</div>
-</body>
-</html>
+
+	</body>
+</ui:composition>

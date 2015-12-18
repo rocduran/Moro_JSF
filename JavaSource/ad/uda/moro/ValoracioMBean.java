@@ -64,6 +64,7 @@ public class ValoracioMBean implements Serializable {
 		this.mitjanes = new ArrayList<Integer>();
 
 		createBarModels();
+		System.out.println("CREATED BAR MODELS: " + this.barModel);
 	}
 
 	public String loadValoracions() {
@@ -136,10 +137,6 @@ public class ValoracioMBean implements Serializable {
 		return suma / total;
 	}
 
-	// public List<Integer> getMitjanes(int idServei){
-	//
-	// }
-
 	public List<Parametre> getParametresGraf() {
 		return this.parametresGraf;
 	}
@@ -153,6 +150,8 @@ public class ValoracioMBean implements Serializable {
 			}
 		}
 		this.setMitjanesParametres(idServei);
+		this.createBarModels();
+		System.out.println("CREATED BAR MODELS: " + this.barModel);
 	}
 
 	public List<Integer> getMitjanesParametres() {
@@ -186,7 +185,7 @@ public class ValoracioMBean implements Serializable {
 		Axis yAxis = barModel.getAxis(AxisType.Y);
 		yAxis.setLabel("Valor");
 		yAxis.setMin(0);
-		yAxis.setMax(5);
+		yAxis.setMax(6);
 	}
 
 	private BarChartModel initBarModel() {
@@ -195,8 +194,11 @@ public class ValoracioMBean implements Serializable {
 		ChartSeries params = new ChartSeries();
 		params.setLabel("Parametres");
 		
+		if(this.parametresGraf.size() == 0){
+			params.set("", 0);
+		}
+		
 		for (int i = 0; i < this.parametresGraf.size(); i++) {
-			
 			
 			params.set(parametresGraf.get(i).getDescripcio(), mitjanes.get(i));
 			

@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -9,6 +11,7 @@
 	<div class="ui-fluid">
 		<div id="container">
 			<h:form>
+
 				<div id="divListBoxServeis" style="float: left">
 					<p:outputLabel for="listBoxServeiList" value="#{msg.select_servei}" />
 
@@ -20,49 +23,53 @@
 							var="selectedServei" itemLabel="#{servei.descripcio}"
 							itemValue="#{servei}" />
 
-						<p:column><h:outputText value="#{s.id}" /></p:column>
+						<p:column>
+							<h:outputText value="#{s.id}" />
+						</p:column>
 
-						<p:column><h:outputText value=" - " /></p:column>
+						<p:column>
+							<h:outputText value=" - " />
+						</p:column>
 
-						<p:column><h:outputText value="#{s.descripcio}" /></p:column>
+						<p:column>
+							<h:outputText value="#{s.descripcio}" />
+						</p:column>
 
 					</p:selectOneListbox>
 
-					<p:commandButton value="Submit" icon="ui-icon-check" 
-						style="margin-top: 5%" action="#{valoracioMBean.setParametresGraf(serveiMBean.selectedServei.id)}">
-						
-						<f:actionListener binding="#{valoracioMBean.createBarModels()}"/>
-						
-						<f:ajax event="click" render="tblParametres graf" />
-						
-					</p:commandButton>
+					<p:commandButton value="Submit" icon="ui-icon-check"
+						style="margin-top: 5%" type="submit" action="#{valoracioMBean.setParametresGraf(serveiMBean.selectedServei.id)}"
+						update="tblParametres graf" process="@form" />
 
 				</div>
 
 				<div id="divBarCharView"
 					style="display: inline-block; margin-left: 2%">
-					<p:chart id="graf" type="bar" model="#{valoracioMBean.barModel}" style="height:400px; width:1000px" emptyMessage="null" />
+					<p:chart id="graf" type="bar" model="#{valoracioMBean.barModel}"
+						style="height:400px; width:1000px" />
 				</div>
 
 				<div id="divTaulaParametres" style="margin-top: 5%">
 					<p:dataTable id="tblParametres"
-						value="#{valoracioMBean.parametresGraf}"
-						var="parametre" emptyMessage="#{msg.no_parametres}"
-						paginator="true" rows="5" paginatorAlwaysVisible="false"
-						paginatorPosition="bottom" stickyHeader="false">
+						value="#{valoracioMBean.parametresGraf}" var="parametre"
+						emptyMessage="#{msg.no_parametres}" paginator="true" rows="5"
+						paginatorAlwaysVisible="false" paginatorPosition="bottom"
+						stickyHeader="false">
 
 						<p:column headerText="#{msg.parametres}">
-							<h:outputText value="#{parametre.descripcio}"/>
+							<h:outputText value="#{parametre.descripcio}" />
 						</p:column>
 
 						<p:column headerText="#{msg.valor}">
-							<h:outputText value="#{valoracioMBean.getMitjanaParametre(parametre.id, serveiMBean.selectedServei.id)}"/>
+							<h:outputText
+								value="#{valoracioMBean.getMitjanaParametre(parametre.id, serveiMBean.selectedServei.id)}" />
 						</p:column>
+
 					</p:dataTable>
 				</div>
-
 			</h:form>
 		</div>
 	</div>
 </body>
-</html>
+
+</ui:composition>

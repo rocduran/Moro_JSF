@@ -27,7 +27,8 @@ public class DossierMBean implements Serializable {
 
 	// Moro entities:
 	private List<Dossier> dossierList;
-	private String selectedDossier;
+	private Dossier dossier = new Dossier();
+	
 
 	public DossierMBean() {
 		WebOperations.log("DossierMBean: Default constructor called");
@@ -72,14 +73,66 @@ public class DossierMBean implements Serializable {
 	public void setDossierList(List<Dossier> dossierList) {
 		this.dossierList = dossierList;
 	}
-
-	public String getSelectedDossier() {
-		return selectedDossier;
-	}
-
-	public void setSelectedDossier(String selectedDossier) {
-		this.selectedDossier = selectedDossier;
-	}
-
 	
+	public Dossier getDossier() {
+		return dossier;
+	}
+
+	public void setDossier(Dossier dossier) {
+		this.dossier = dossier;
+	}
+
+	public void addDossier() {
+		WebOperations.log("DossierMBean: addDossier " + dossier);
+
+		try {
+			this.enquestesService.addDossier(dossier);
+			this.loadDossiers();
+			this.dossier = new Dossier();
+		} catch (MoroException ex) {
+			errorMessage = WebOperations.getStandardBundleMessage("ErrBusinessLogic") + " " + ex.getMessage();
+			WebOperations.addErrorMessage(errorMessage);
+		}
+	}
+
+	public void delete(int id) {
+//		WebOperations.log("DossierMBean: delete Dossier " + id);
+//
+//		try {
+//			Dossier delete = this.enquestesService.getDossierById(id);
+//			this.enquestesService.deleteDossier(id);
+//			dossierList.remove(delete);
+//		} catch (MoroException ex) {
+//			errorMessage = WebOperations.getStandardBundleMessage("ErrBusinessLogic") + " " + ex.getMessage();
+//			WebOperations.addErrorMessage(errorMessage);
+//		}
+	}
+
+	public void updateDescripcio(int id, String descripcio) {
+		try {
+			Dossier dossier = this.enquestesService.getDossierById(id);
+			dossier.setDescripcio(descripcio);
+			this.enquestesService.updateDossier(dossier);
+		} catch (MoroException ex) {
+			errorMessage = WebOperations.getStandardBundleMessage("ErrBusinessLogic") + " " + ex.getMessage();
+			WebOperations.addErrorMessage(errorMessage);
+		}
+	}
+
+	public void updatePreu(int id, int preu) {
+		try {
+			Dossier dossier = this.enquestesService.getDossierById(id);
+			dossier.setPreu(preu);
+			this.enquestesService.updateDossier(dossier);
+		} catch (MoroException ex) {
+			errorMessage = WebOperations.getStandardBundleMessage("ErrBusinessLogic") + " " + ex.getMessage();
+			WebOperations.addErrorMessage(errorMessage);
+		}
+	}
+	
+	public void test(){
+		WebOperations.log("TEST TEST TEST TEST TEST TEST TEST TEST");
+		WebOperations.log("Dossier.descripcio: " + dossier.getDescripcio());
+		WebOperations.log("Dossier.preu: " + dossier.getPreu());
+	}
 }
