@@ -1,6 +1,7 @@
 package ad.uda.moro;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +29,6 @@ public class DossierMBean implements Serializable {
 	// Moro entities:
 	private List<Dossier> dossierList;
 	private Dossier dossier = new Dossier();
-	
 
 	public DossierMBean() {
 		WebOperations.log("DossierMBean: Default constructor called");
@@ -55,6 +55,7 @@ public class DossierMBean implements Serializable {
 		WebOperations.log("EnquestesServiceMBean: loadServeis() called.");
 
 		try {
+			this.dossierList = new ArrayList<Dossier>();
 			Dossier[] serveiArray = this.enquestesService.getDossierList();
 			this.dossierList = Arrays.asList(serveiArray);
 		} catch (MoroException ex) {
@@ -96,16 +97,15 @@ public class DossierMBean implements Serializable {
 	}
 
 	public void delete(int id) {
-//		WebOperations.log("DossierMBean: delete Dossier " + id);
-//
-//		try {
-//			Dossier delete = this.enquestesService.getDossierById(id);
-//			this.enquestesService.deleteDossier(id);
-//			dossierList.remove(delete);
-//		} catch (MoroException ex) {
-//			errorMessage = WebOperations.getStandardBundleMessage("ErrBusinessLogic") + " " + ex.getMessage();
-//			WebOperations.addErrorMessage(errorMessage);
-//		}
+		WebOperations.log("DossierMBean: delete Dossier " + id);
+
+		try {
+			this.enquestesService.deleteDossier(id);
+			this.loadDossiers();
+		} catch (MoroException ex) {
+			errorMessage = WebOperations.getStandardBundleMessage("ErrBusinessLogic") + " " + ex.getMessage();
+			WebOperations.addErrorMessage(errorMessage);
+		}
 	}
 
 	public void updateDescripcio(int id, String descripcio) {

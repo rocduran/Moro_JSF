@@ -8,10 +8,11 @@
 
 		<div class="ui-fluid">
 			<div id="container">
+			 
 				<h:form id="newDossier">
 					<div id="addDossier" style="display: block">
-
-
+						<p:growl id="growl" showDetail="true" sticky="false" life="3000"
+						/> 
 						<h:outputLabel for="descripcio" value="#{msg.descripcio}:" />
 
 						<p:inputText id="descripcio" required="true"
@@ -24,21 +25,25 @@
 						<p:inputText id="preu" required="true" placeholder="Preu"
 							value="#{dossierMBean.dossier.preu}" />
 
-						<p:commandButton value="#{msg.inserir}" icon="ui-icon-plus"
-							style="margin-left: 2%" styleClass="ui-priority-primary"
-							action="#{dossierMBean.addDossier}" type="submit" process="@form"
-							update="tblDossiers" />
-
-
+						<p:commandButton value="#{msg.inserir}" 
+										 icon="ui-icon-plus"
+										 style="margin-left: 2%" 
+										 styleClass="ui-priority-primary"
+										 action="#{dossierMBean.addDossier}"
+										 type="submit" 
+										 process="@form"
+										 update="llistatDossiers newDossier"
+										 actionListener="#{growlView.saveMessage('Dossier succesfully added!')}" />
 					</div>
 
 
 					<div id="divTaulaDossiers" style="margin-top: 5%; display: block">
-
+						<h:form id="llistatDossiers">
+						
 						<p:dataTable id="tblDossiers" var="dossier"
 							value="#{dossierMBean.dossierList}"
 							emptyMessage="#{msg.no_dossiers}" scrollable="true"
-							scrollHeight="100">
+							scrollHeight="200">
 
 							<p:column headerText="Id">
 								<h:outputText value="#{dossier.id}" id="dossierId" />
@@ -61,20 +66,19 @@
 							</p:column>
 
 							<p:column headerText="#{msg.borrar}">
-
-								<!-- 							<p:commandButton icon="ui-icon-trash" -->
-								<!-- 							style="margin-top: 1%; margin-bottom: 1%" styleClass="ui-priority-primary" -->
-								<!-- 							action="#{dossierMBean.delete(dossier.id)}" type="button"/> -->
-
-								<!-- 							<p:commandButton icon="ui-icon-trash" -->
-								<!-- 								style="margin-top: 1%; margin-bottom: 1%" -->
-								<!-- 								action="#{dossierMBean.delete(dossier.id)}"> -->
-								<!-- 								<f:ajax event="click" render="tblDossiers" /> -->
-								<!-- 							</p:commandButton> -->
+							<p:growl id="growl2" showDetail="true" sticky="false" life="3000"
+								/> 
+								<p:commandButton icon="ui-icon-trash"
+									style="margin-top: 1%; margin-bottom: 1%"
+									styleClass="ui-priority-primary"
+									action="#{dossierMBean.delete(dossier.id)}"
+									process="@form" 
+									update="tblDossiers"
+									actionListener="#{growlView.saveMessage('Dossier succesfully deleted!')}" />
 							</p:column>
 
 						</p:dataTable>
-
+					</h:form>
 					</div>
 				</h:form>
 			</div>
