@@ -8,80 +8,167 @@
 
 		<div class="ui-fluid">
 			<div id="container">
+				
+				<p:separator style="height: 10px;"/>
+				
+				<div id="divActivitatDossier" style="display: block">
 
-				<h:form id="newDossier">
-					<div id="addDossier" style="display: block">
-						<p:growl id="growl" showDetail="true" sticky="false" life="3000" />
-						<h:outputLabel for="descripcio" value="#{msg.descripcio}:" />
+					<h:form id="formActivitatDossiers" style="display: block">
+						<div id="addActivitatDossier" style="display: block">
+							<p:growl id="growl" showDetail="true" sticky="false" life="3000" />
+							<h:outputLabel for="idDossier" value="idDossier: " />
 
-						<p:inputText id="descripcio" required="true"
-							placeholder="Descripcio"
-							value="#{dossierMBean.dossier.descripcio}" />
+							<p:inputText id="idDossier" required="true"
+								placeholder="idDossier"
+								value="#{activitatDossierMBean.activitatDossier.idDossier.id}" />
 
-						<h:outputLabel for="preu" value="#{msg.preu}:"
-							style="margin-left: 2%" />
+							<h:outputLabel for="idServei" value="idServei: "
+								style="margin-left: 2%" />
 
-						<p:inputText id="preu" required="true" placeholder="Preu"
-							value="#{dossierMBean.dossier.preu}" />
+							<p:inputText id="idServei" required="true" placeholder="idServei"
+								value="#{activitatDossierMBean.activitatDossier.idServei.id}" />
 
-						<p:commandButton value="#{msg.inserir}" icon="ui-icon-plus"
-							style="margin-left: 2%" styleClass="ui-priority-primary"
-							action="#{dossierMBean.addDossier}" type="submit" process="@form"
-							update="llistatDossiers newDossier"
-							actionListener="#{growlView.saveMessage('Dossier succesfully added!')}" />
-					</div>
+							<p:commandButton value="#{msg.inserir} ActivitatDossier" icon="ui-icon-plus"
+								style="margin-left: 2%; width: 25%;" styleClass="ui-priority-primary"
+								action="#{activitatDossierMBean.addActivitatDossier()}"
+								type="submit" process="formActivitatDossiers"
+								update="llistatActivitatDossiers formActivitatDossiers"
+								actionListener="#{growlView.saveMessage('Dossier succesfully added!')}" />
+						</div>
 
 
-					<div id="divTaulaDossiers" style="margin-top: 5%; display: block">
-						<h:form id="llistatDossiers">
+						<div id="divTaulaActivitatDossiers"
+							style="margin-top: 5%; display: block">
+							<h:form id="llistatActivitatDossiers">
 
-							<p:dataTable id="tblDossiers" var="dossier"
-								value="#{dossierMBean.dossierList}"
-								emptyMessage="#{msg.no_dossiers}" scrollable="true"
-								scrollHeight="200">
+								<p:dataTable id="tblActivitatDossiers" var="atv"
+									value="#{activitatDossierMBean.activitatDossierList}"
+									emptyMessage="#{msg.no_dossiers}" scrollable="true"
+									scrollHeight="200">
 
-								<f:facet name="header">
-           						Dossiers
+									<f:facet name="header">
+           						ActivitatDossier
       							</f:facet>
 
-								<p:column headerText="Id">
-									<h:outputText value="#{dossier.id}" id="dossierId" />
-								</p:column>
+									<p:column headerText="Id">
+										<h:outputText value="#{atv.id}" id="dossierId" />
+									</p:column>
 
-								<p:column headerText="#{msg.descripcio}">
-									<p:inplace editor="true">
-										<p:ajax event="save"
-											listener="#{dossierMBean.updateDescripcio(dossier.id, dossier.descripcio)}" />
-										<p:inputText value="#{dossier.descripcio}" />
-									</p:inplace>
-								</p:column>
+									<p:column headerText="idDossier">
+										<p:inplace editor="true">
+											<p:ajax event="save"
+												listener="#{activitatDossierMBean.updateIdDossier(atv.id, atv.idDossier.id)}" />
+											<p:inputText value="#{atv.idDossier.id}" />
+										</p:inplace>
+									</p:column>
 
-								<p:column headerText="#{msg.preu}">
-									<p:inplace editor="true">
-										<p:ajax event="save"
-											listener="#{dossierMBean.updatePreu(dossier.id, dossier.preu)}" />
-										<p:inputText value="#{dossier.preu}" />
-									</p:inplace>
-								</p:column>
+									<p:column headerText="idServei">
+										<p:inplace editor="true">
+											<p:ajax event="save"
+												listener="#{activitatDossierMBean.updateIdServei(atv.id, atv.idServei.id)}" />
+											<p:inputText value="#{atv.idServei.id}" />
+										</p:inplace>
+									</p:column>
 
-								<p:column headerText="#{msg.borrar}">
-									<p:growl id="growl2" showDetail="true" sticky="false"
-										life="3000" />
-									<p:commandButton icon="ui-icon-trash"
-										style="margin-top: 1%; margin-bottom: 1%"
-										styleClass="ui-priority-primary"
-										action="#{dossierMBean.delete(dossier.id)}"
-										process="tblDossiers" update="tblDossiers"
-										actionListener="#{growlView.saveMessage('Dossier succesfully deleted!')}" />
-								</p:column>
+									<p:column headerText="#{msg.borrar}">
+										<p:growl id="growl2" showDetail="true" sticky="false"
+											life="3000" />
+										<p:commandButton icon="ui-icon-trash"
+											style="margin-top: 1%; margin-bottom: 1%"
+											styleClass="ui-priority-primary"
+											action="#{activitatDossierMBean.delete(dossier.id)}"
+											process="tblActivitatDossiers" update="tblActivitatDossiers"
+											actionListener="#{growlView.saveMessage('Dossier succesfully deleted!')}" />
+									</p:column>
+								</p:dataTable>
+							</h:form>
+						</div>
+					</h:form>
+				</div>
 
-							</p:dataTable>
-						</h:form>
-					</div>
-				</h:form>
+				<p:separator style="height: 10px;"/>
+				
+
+				<div id="divDossier" style="display: block; margin-top: 5%;">
+				
+					<h:form id="formDossiers" style="display: block">
+						<div id="addDossier" style="display: block">
+							<p:growl id="growl" showDetail="true" sticky="false" life="3000" />
+							<h:outputLabel for="descripcio" value="#{msg.descripcio}:" />
+
+							<p:inputText id="descripcio" required="true"
+								placeholder="#{msg.descripcio}"
+								value="#{dossierMBean.dossier.descripcio}" />
+
+							<h:outputLabel for="preu" value="#{msg.preu}:"
+								style="margin-left: 2%" />
+
+							<p:inputText id="preu" required="true" placeholder="Preu"
+								value="#{dossierMBean.dossier.preu}" />
+
+							<p:commandButton value="#{msg.inserir} Dossier" icon="ui-icon-plus"
+								style="margin-left: 2%; width: 25%;" styleClass="ui-priority-primary"
+								action="#{dossierMBean.addDossier}" type="submit"
+								process="formDossiers" update="llistatDossiers formDossiers"
+								actionListener="#{growlView.saveMessage('Dossier succesfully added!')}" />
+						</div>
+
+
+						<div id="divTaulaDossiers" style="margin-top: 5%; display: block">
+							<h:form id="llistatDossiers">
+
+								<p:dataTable id="tblDossiers" var="dossier"
+									value="#{dossierMBean.dossierList}"
+									emptyMessage="#{msg.no_dossiers}" scrollable="true"
+									scrollHeight="200">
+
+									<f:facet name="header">
+           						Dossier
+      							</f:facet>
+
+									<p:column headerText="Id">
+										<h:outputText value="#{dossier.id}" id="dossierId" />
+									</p:column>
+
+									<p:column headerText="#{msg.descripcio}">
+										<p:inplace editor="true">
+											<p:ajax event="save"
+												listener="#{dossierMBean.updateDescripcio(dossier.id, dossier.descripcio)}" />
+											<p:inputText value="#{dossier.descripcio}" />
+										</p:inplace>
+									</p:column>
+
+									<p:column headerText="#{msg.preu}">
+										<p:inplace editor="true">
+											<p:ajax event="save"
+												listener="#{dossierMBean.updatePreu(dossier.id, dossier.preu)}" />
+											<p:inputText value="#{dossier.preu}" />
+										</p:inplace>
+									</p:column>
+
+									<p:column headerText="#{msg.borrar}">
+										<p:growl id="growl2" showDetail="true" sticky="false"
+											life="3000" />
+										<p:commandButton icon="ui-icon-trash"
+											style="margin-top: 1%; margin-bottom: 1%"
+											styleClass="ui-priority-primary"
+											action="#{dossierMBean.delete(dossier.id)}"
+											process="tblDossiers" update="tblDossiers"
+											actionListener="#{growlView.saveMessage('Dossier succesfully deleted!')}" />
+									</p:column>
+								</p:dataTable>
+							</h:form>
+						</div>
+					</h:form>
+				</div>
+				
+				<p:separator style="height: 10px;"/>
+				
+				
+
+
+
 			</div>
-
 		</div>
-
 	</body>
 </ui:composition>

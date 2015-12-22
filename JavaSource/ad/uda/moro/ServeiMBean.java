@@ -1,8 +1,6 @@
 package ad.uda.moro;
 
-import java.awt.event.ActionEvent;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,12 +9,9 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;	
 import javax.faces.context.FacesContext;
 
-import com.sun.javafx.collections.MappingChange.Map;
 
 import ad.uda.moro.MoroException;
-import ad.uda.moro.ejb.entity.Parametre;
 import ad.uda.moro.ejb.entity.Servei;
-import ad.uda.moro.ejb.entity.Valoracio;
 import ad.uda.moro.ejb.session.EnquestesServiceRemote;
 
 @ManagedBean(name = "serveiMBean")
@@ -95,28 +90,4 @@ public class ServeiMBean implements Serializable {
 		}
 		return null;
 	}
-	
-//	public int getMitjanaParametre(String param){
-//		if (selectedServei == null) return -1;
-//		 
-//		int idParam = Integer.valueOf(param);
-//		try {
-//			Valoracio[] valoracions = this.enquestesService.getValoracioList();
-//			int suma = 0;
-//			int total = 0;
-//			for (int i = 0; i < valoracions.length; i++){
-//				if(valoracions[i].getIdParam().getId() == idParam && valoracions[i].getIdServei().getId() == selectedServei.getId() ){
-//					suma += valoracions[i].getValor();
-//					total ++;
-//				}
-//			}
-//			if( total == 0) return 0;
-//			return suma / total;
-//		} catch (MoroException ex) {
-//			errorMessage = WebOperations.getStandardBundleMessage("ErrBusinessLogic") + " " + ex.getMessage();
-//			WebOperations.addErrorMessage(errorMessage);
-//			return -1;
-//		}
-//	}
-
 }
