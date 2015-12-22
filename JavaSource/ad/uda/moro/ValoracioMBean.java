@@ -37,7 +37,7 @@ public class ValoracioMBean implements Serializable {
 	private Valoracio selectedValoracio;
 
 	private List<Parametre> parametresGraf;
-	private List<Integer> mitjanes;
+	private List<Float> mitjanes;
 
 	private BarChartModel barModel;
 
@@ -61,10 +61,10 @@ public class ValoracioMBean implements Serializable {
 		this.loadValoracions();
 
 		this.parametresGraf = new ArrayList<Parametre>();
-		this.mitjanes = new ArrayList<Integer>();
+		this.mitjanes = new ArrayList<Float>();
 
-		createBarModels();
-		System.out.println("CREATED BAR MODELS: " + this.barModel);
+		this.createBarModels();
+		
 	}
 
 	public String loadValoracions() {
@@ -98,6 +98,15 @@ public class ValoracioMBean implements Serializable {
 		}
 		return null;
 	}
+	
+	public void loadParametresOfServei(int idServei) {
+		for (int i = 0; i < valoracioList.size(); i++){
+			if(!parametresGraf.contains(valoracioList.get(i).getIdParam()) &&
+					valoracioList.get(i).getIdServei().getId() == idServei){
+				parametresGraf.add(valoracioList.get(i).getIdParam());
+			}
+		}
+	}
 
 	public Valoracio getSelectedValoracio() {
 		return selectedValoracio;
@@ -120,21 +129,21 @@ public class ValoracioMBean implements Serializable {
 		this.valoracioList = valoracioList;
 	}
 
-	public int getMitjanaParametre(int idParam, int idServei) {
+	public float getMitjanaParametre(int idParam, int idServei) {
 
-		int suma = 0;
-		int total = 0;
+		float suma = 0;
+		float total = 0;
 
 		for (int i = 0; i < valoracioList.size(); i++) {
-			if (valoracioList.get(i).getIdParam().getId() == idParam
-					&& valoracioList.get(i).getIdServei().getId() == idServei) {
+			if (valoracioList.get(i).getIdParam().getId() == idParam 
+			 && valoracioList.get(i).getIdServei().getId() == idServei) {
 				suma += valoracioList.get(i).getValor();
 				total++;
 			}
 		}
-
-		if (total == 0) return 0;
-		return suma / total;
+		
+		if (total == 0)return (float) 0;
+		return (float) suma / total;
 	}
 
 	public List<Parametre> getParametresGraf() {
@@ -142,24 +151,24 @@ public class ValoracioMBean implements Serializable {
 	}
 
 	public void setParametresGraf(int idServei) {
+		
 		this.parametresGraf = new ArrayList<Parametre>();
+		this.mitjanes = new ArrayList<Float>();
 
-		for (int i = 0; i < valoracioList.size(); i++) {
-			if (valoracioList.get(i).getIdServei().getId() == idServei) {
-				parametresGraf.add(valoracioList.get(i).getIdParam());
-			}
-		}
+		this.loadParametresOfServei(idServei);
+		
 		this.setMitjanesParametres(idServei);
+		
 		this.createBarModels();
-		System.out.println("CREATED BAR MODELS: " + this.barModel);
+		
 	}
 
-	public List<Integer> getMitjanesParametres() {
+	public List<Float> getMitjanesParametres() {
 		return this.mitjanes;
 	}
 
 	public void setMitjanesParametres(int idServei) {
-		this.mitjanes = new ArrayList<Integer>();
+		this.mitjanes = new ArrayList<Float>();
 
 		for (int i = 0; i < valoracioList.size(); i++) {
 			if (valoracioList.get(i).getIdServei().getId() == idServei) {
@@ -190,18 +199,18 @@ public class ValoracioMBean implements Serializable {
 
 	private BarChartModel initBarModel() {
 		BarChartModel model = new BarChartModel();
-		
+
 		ChartSeries params = new ChartSeries();
 		params.setLabel("Parametres");
-		
-		if(this.parametresGraf.size() == 0){
+
+		if (this.parametresGraf.size() == 0) {
 			params.set("", 0);
 		}
-		
+
 		for (int i = 0; i < this.parametresGraf.size(); i++) {
-			
+
 			params.set(parametresGraf.get(i).getDescripcio(), mitjanes.get(i));
-			
+
 		}
 		model.addSeries(params);
 		return model;

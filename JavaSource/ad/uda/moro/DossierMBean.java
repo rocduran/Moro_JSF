@@ -109,6 +109,7 @@ public class DossierMBean implements Serializable {
 	}
 
 	public void updateDescripcio(int id, String descripcio) {
+		System.out.println("DossierMBean updateDescripcio() id: "+id+" descripcio: "+descripcio);
 		try {
 			Dossier dossier = this.enquestesService.getDossierById(id);
 			dossier.setDescripcio(descripcio);
@@ -120,6 +121,7 @@ public class DossierMBean implements Serializable {
 	}
 
 	public void updatePreu(int id, int preu) {
+		System.out.println("DossierMBean updatePreu() id: "+id+" preu: "+preu);
 		try {
 			Dossier dossier = this.enquestesService.getDossierById(id);
 			dossier.setPreu(preu);

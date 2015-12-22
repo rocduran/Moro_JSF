@@ -62,7 +62,9 @@
 
 						<p:column headerText="#{msg.valor}">
 							<h:outputText
-								value="#{valoracioMBean.getMitjanaParametre(parametre.id, serveiMBean.selectedServei.id)}" />
+								value="#{valoracioMBean.getMitjanaParametre(parametre.id, serveiMBean.selectedServei.id)}" >
+								<f:convertNumber pattern="#0.000" />
+							</h:outputText>
 						</p:column>
 
 					</p:dataTable>

@@ -86,7 +86,6 @@ public class ParametreMBean implements Serializable {
 	public List<Parametre> getParametreList(int idServei){
 		List<Parametre> parametresByIdTipus = new ArrayList<Parametre>();
 		
-		int id = Integer.valueOf(idServei);
 		for (int i = 0; i < parametreList.size(); i++){
 			if(parametreList.get(i).getIdTipus() == idServei){
 				parametresByIdTipus.add(parametreList.get(i));
